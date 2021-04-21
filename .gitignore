@@ -1,0 +1,23 @@
+# Ignore files/folders in git repositories
+# https://git-scm.com/docs/gitignore
+
+# Exclude npm/yarn package folders
+node_modules/
+
+# Exclude package manager files files
+package-lock.json
+yarn.lock
+yarn-error.log
+
+# Exclude Unit tests reports
+coverage/
+
+# Mac folder BS
+.DS_Store
+._.DS_Store
+**/.DS_Store
+**/._.DS_Store
+
+# Exclude generated files & folders
+dist/
+prod/

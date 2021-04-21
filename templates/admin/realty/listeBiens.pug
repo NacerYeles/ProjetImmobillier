@@ -1,0 +1,24 @@
+extends ../dashboard
+
+block append content
+    table#customers
+        thead
+            tr
+                th vendeur 
+                th Adresse
+                th Description
+                th 
+                th 
+        tbody
+            if toutLesBiens != undefined
+                each val,key in toutLesBiens
+                    tr 
+                        td #{val.adresse_du_bien.nom_vendeur}
+                        td #{val.adresse_du_bien.adresse}
+                        td #{val.adresse_du_bien.info_complementaire_adresse}
+                        td
+                            a(href=`/admin/realty/update/${val.slug}`)
+                                em.fa.fa-pencil-alt#pencilIcon &nbsp;
+                        td
+                            a(href=`/admin/realty/delete/${val.slug}`) 
+                                em.fa.fa-trash#deleteIcon &nbsp;

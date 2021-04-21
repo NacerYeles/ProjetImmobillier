@@ -1,0 +1,26 @@
+extends layout
+
+block content
+    #main
+     form(action='/insertion_dans_base', method='POST')
+       div.label 
+        h2 Inscription
+       div.mail
+        input(class="form-control", type="email", placeholder="email", name="email")
+       div.password
+        input(class="form-control", type="password", placeholder="Mot de passe", name="mdp")
+       div.civilite
+        select(class="form-control" placeholder="Civilité" name="civilite")
+                option(value="") Choisir votre civilité
+                option(value="1") Madame
+                option(value="2") Monsieur
+       div.nom
+        input(class="form-control", type="text", placeholder="Nom", name="nom")
+       div.prenom
+        input(class="form-control", type="text", placeholder="Prenom", name="prenom")
+       div.phone
+        input(class="form-control", type="phone", placeholder="Téléphone", name="telephone")
+       button(id="btn-formulaireAndConnexion", class="btn btn-primary", type="submit") Inscription
+       p
+        | déjà membre ?
+        a(id="deja-membre-formulaire" href="/Connexion") Connect toi 

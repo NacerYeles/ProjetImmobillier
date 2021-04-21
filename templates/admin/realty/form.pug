@@ -1,0 +1,39 @@
+extends ../dashboard
+
+block append content
+    form(action=`/admin/realty/${UnSeulBien != undefined ? 'update/' + UnSeulBien.slug  : 'add' }`, method='POST', enctype="multipart/form-data")
+        .grandBlock
+            div.block1
+                h4.LestitresDuFormulaireAdmin Adresse du Bien
+                div.name_vendeur
+                    input(class="form-control", type="text", placeholder=`${UnSeulBien === undefined ? 'nom du vendeur'  : '' }` value=`${UnSeulBien != undefined ? UnSeulBien.adresse_du_bien.nom_vendeur  : '' }`, name="nom_vendeur")
+                div.adresse
+                    input(class="form-control", type="text", placeholder=`${UnSeulBien === undefined ? 'adresse du bien'  : '' }` value=`${UnSeulBien != undefined ? UnSeulBien.adresse_du_bien.adresse  : '' }`, name="adresse")
+                div.code_postale
+                    input(class="form-control", type="text", placeholder=`${UnSeulBien === undefined ? 'code postal'  : '' }` value=`${UnSeulBien != undefined ? UnSeulBien.adresse_du_bien.code_postal  : '' }`, name="code_postal")
+                div.ville
+                    input(class="form-control", type="text", placeholder=`${UnSeulBien === undefined ? 'ville'  : '' }` value=`${UnSeulBien != undefined ? UnSeulBien.adresse_du_bien.ville  : '' }`, name="ville")
+                div.info_complementaire_adresse
+                    input(class="form-control", type="text", placeholder=`${UnSeulBien === undefined ? 'information complementaire'  : '' }` value=`${UnSeulBien != undefined ? UnSeulBien.adresse_du_bien.info_complementaire_adresse  : '' }`, name="info_complementaire_adresse")
+                
+                .lcUpload__block
+                    .lcUpload__input
+                        input.lcUpload__file(type="file" name="photos" id="file" data-multiple-caption="{count} fichiers sélectionnés" multiple)
+                        label(for="file")
+                            strong Choisissez le fichier
+                            span.lcUpload__dragndrop  ou glissez le ici
+            div.block2 
+                h4.LestitresDuFormulaireAdmin Contact du Bien
+                div.nom
+                    input(class="form-control", type="text", placeholder=`${UnSeulBien === undefined ? 'nom'  : '' }` value=`${UnSeulBien != undefined ? UnSeulBien.contact_du_bien.nom  : '' }`, name="nom")
+                div.prenom
+                    input(class="form-control", type="text", placeholder=`${UnSeulBien === undefined ? 'prenom'  : '' }` value=`${UnSeulBien != undefined ? UnSeulBien.contact_du_bien.prenom  : '' }`, name="prenom")
+                div.email
+                    input(class="form-control", type="email", placeholder=`${UnSeulBien === undefined ? 'adresse mail'  : '' }` value=`${UnSeulBien != undefined ? UnSeulBien.contact_du_bien.email  : '' }`, name="email")
+                div.mobile
+                    input(class="form-control", type="phone", placeholder=`${UnSeulBien === undefined ? 'mobile'  : '' }` value=`${UnSeulBien != undefined ? UnSeulBien.contact_du_bien.mobile  : '' }`, name="mobile")
+                div.telephone
+                    input(class="form-control", type="phone", placeholder=`${UnSeulBien === undefined ? 'téléphone'  : '' }` value=`${UnSeulBien != undefined ? UnSeulBien.contact_du_bien.telephone  : '' }`, name="telephone")
+                div.info_complementaire_contact
+                    input(class="form-control", type="text", placeholder=`${UnSeulBien === undefined ? 'information complémentaire'  : '' }` value=`${UnSeulBien != undefined ? UnSeulBien.contact_du_bien.info_complementaire_contact  : '' }`, name="info_complementaire_contact")
+        button(id="btn-formulaireAdmin", type="submit") #{UnSeulBien != undefined ? "Modifier" : 'Enregistrer' }

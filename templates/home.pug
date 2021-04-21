@@ -1,0 +1,5 @@
+extends layout
+
+block content
+    if session.user != undefined
+        p#homePage Monsieur #{session.user.nom}

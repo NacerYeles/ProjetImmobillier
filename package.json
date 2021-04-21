@@ -1,0 +1,25 @@
+{
+  "name": "project_immobilier",
+  "version": "1.0.0",
+  "description": "projet immobilier Lapasserelle node,express,moka",
+  "main": "index.js",
+  "scripts": {
+    "dev": "browser-refresh server.js",
+    "start": "node server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.19.0",
+    "express": "^4.17.1",
+    "express-fileupload": "^1.2.1",
+    "express-flash-messages": "^0.1.1",
+    "express-session": "^1.17.1",
+    "mongoose": "^5.12.3",
+    "mongoose-slug-updater": "^3.3.0",
+    "node-sass-middleware": "^0.11.0",
+    "pug": "^3.0.2"
+  }
+}

@@ -1,0 +1,24 @@
+extends ../layout
+
+block content
+    nav.navbar.navbar-expand-md.navbar-warning.bg-warning
+      a.navbar-brand(href="#")
+      button.navbar-toggler(type="button" data-toggle="collapse" data-target="#main-navbar")
+        span.navbar-toggler-icon
+      #main-navbar.collapse.navbar-collapse
+        ul.navbar-nav.mr-auto
+          li.nav-item
+            a.nav-link(class=(route == '/admin' ? 'active' : '' ), href="/admin")
+                em.fa.fa-tachometer-alt &nbsp; Dashboard
+          li.nav-item
+            a.nav-link(class=(route.indexOf('/admin/realty/add') != -1  ? 'active' : '' ), href="/admin/realty/add")
+                em.fa.fa-home &nbsp; Ajouter un Bien
+          li.nav-item
+            a.nav-link(class=(route.indexOf('/admin/contacts') != -1  ? 'active' : '' ), href="/admin/contacts")
+                em.fa.fa-address-book &nbsp; Contacts
+          li.nav-item
+            a.nav-link(class=(route.indexOf('/admin/realty/liste-des-biens') != -1  ? 'active' : '' ), href="/admin/realty/liste-des-biens")
+                em.fa.fa-tachometer-alt &nbsp; Liste des biens
+          li.nav-item
+            a.nav-link(class=(route.indexOf('/logout/deconnexion-user') != -1  ? 'active' : '' ), href="/logout/deconnexion-user")
+                em.fa.fa-sign-out-alt &nbsp; Déconnexion

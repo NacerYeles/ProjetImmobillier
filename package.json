@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "browser-refresh server.js",
-    "start": "nodemon server.js",
+    "start": "node server.js",
     "test": "mocha --recursive --exit"
   },
   "author": "",

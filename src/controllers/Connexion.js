@@ -1,5 +1,9 @@
 let User = require('../repository/User.js');
 let bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
+const Cookies = require( "cookies" );
+const config = require('../../app/config.js');
+
 
 module.exports = class Connexion {
     print(request, response) {
@@ -27,8 +31,23 @@ module.exports = class Connexion {
                         let VerifMdp = bcrypt.compareSync(entityPassword, user.mdp);
         
                         if(VerifMdp){
-                            req.session.user = user
-                            // console.log('req.session ', req.session);
+                            // req.session.user = user
+                            console.log('TEST JE SUIS LE USER : ', user);
+                            let accessToken = jwt.sign(
+                                {
+                                    email: user.email,
+                                    civilite: user.civilite,
+                                    nom: user.nom, 
+                                    prenom: user.prenom,
+                                    telephone: user.telephone,
+                                    slug: user.slug,
+                                    permissions: user.roles
+                                },
+                                config.appKey,
+                                {expiresIn: 604800}
+                            );       
+                            new Cookies(req,res).set('access_token', accessToken, {httpOnly: true, secure: false });
+                            console.log('req.session ', req.session);
                             req.flash('notify', `Bonjour ${user.nom} vous êtes connecter !!!`);
                             res.redirect(`/`);
                         }else{

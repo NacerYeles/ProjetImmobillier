@@ -1,26 +1,68 @@
-extends layout
+extends admin/dashboard
 
-block content
+block append content
     #main
-     form(action='/insertion_dans_base', method='POST')
-       div.label 
-        h2 Inscription
+     form(action=`${route == '/admin/realty/addCollab' || route == '/Inscription' ? '/insertion_dans_base' : '/admin/realty/update-user/' + UnSeulUser.slug }`, method='POST', class="d-block w-50" )
+       input(type="hidden" name="csrf" value=csrf)
+       div.label
+        if route == '/admin/realty/addCollab'
+            h2 Utilisateur
+        else
+            h2 Identifiez-vous ou créez un compte
        div.mail
-        input(class="form-control", type="email", placeholder="email", name="email")
-       div.password
-        input(class="form-control", type="password", placeholder="Mot de passe", name="mdp")
+        label Adresse mail :
+        input(class="form-control", type="email", placeholder="email", name="email", value=`${UnSeulUser != undefined ? UnSeulUser.email  : '' }`)
+       if route == '/admin/realty/addCollab' || route == '/Inscription'
+        div.password
+          label Mot de passe :
+          input(class="form-control", type="password", placeholder="Mot de passe", name="mdp")
        div.civilite
+        label Civilité :
         select(class="form-control" placeholder="Civilité" name="civilite")
+          if route.indexOf('/admin/realty/update-user/') != -1 && UnSeulUser != undefined
+            if UnSeulUser.civilite === ""
+                option(value="") Choisir votre civilité
+            if UnSeulUser.civilite === "1"
+                option(value="1" selected) Madame
+            else 
+                option(value="1") Madame
+            if UnSeulUser.civilite === "2"
+                option(value="2" selected) Monsieur
+            else 
+                option(value="2") Monsieur
+          else
                 option(value="") Choisir votre civilité
                 option(value="1") Madame
                 option(value="2") Monsieur
        div.nom
-        input(class="form-control", type="text", placeholder="Nom", name="nom")
+        label Nom :
+        input(class="form-control", type="text", placeholder="Nom", name="nom", value=`${UnSeulUser != undefined ? UnSeulUser.nom  : ''}`)
        div.prenom
-        input(class="form-control", type="text", placeholder="Prenom", name="prenom")
+        label Prénom :
+        input(class="form-control", type="text", placeholder="Prenom", name="prenom", value=`${UnSeulUser != undefined ? UnSeulUser.prenom  : ''}`)
        div.phone
-        input(class="form-control", type="phone", placeholder="Téléphone", name="telephone")
-       button(id="btn-formulaireAndConnexion", class="btn btn-primary", type="submit") Inscription
+          label Numéro de téléphone :
+          input(class="form-control", type="phone", placeholder="Téléphone", name="telephone", value=`${UnSeulUser != undefined ? UnSeulUser.telephone  : ''}`)
+       if UnSeulUser != undefined
+        div.adminOrNot
+          label Donner plus de droit au compte en choisissant le mode admin :
+          select(class="form-control" placeholder="Civilité" name="roles")
+              if UnSeulUser.roles[0] === "admin"
+                  option(value="admin" selected) Admin
+              else 
+                  option(value="admin") Admin
+              if UnSeulUser.roles[0] === "pas-admin"
+                  option(value="pas-admin" selected) Pas Admin
+              else 
+                  option(value="pas-admin") Pas Admin
+       else if route == '/admin/realty/addCollab'
+        div.adminOrNot
+          label Donner plus de droit au compte en choisissant le mode admin :
+          select(class="form-control" placeholder="Civilité" name="roles")
+                  option(value="pas-admin")  Mettre le compte en Admin
+                  option(value="admin") Oui
+                  option(value="pas-admin") Non
+       button(id="btn-formulaireAndConnexion", class="btn btn-primary", type="submit") #{cookieSession.nom || cookieSession.prenom ? "Modifier" : 'Inscription' }
        p
         | déjà membre ?
         a(id="deja-membre-formulaire" href="/Connexion") Connect toi 

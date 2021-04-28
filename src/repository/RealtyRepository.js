@@ -15,6 +15,7 @@ const RealtySchema = mongoose.Schema({
         info_complementaire_adresse: { type: String }
     },
     contact_du_bien : {
+        civilite : {type: String, match: /[1-2]{1}/},
         nom: { type: String, match: /^[a-zàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšž-]+$/i },
         prenom: { type: String, match: /^[a-zàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšž-]+$/i },
         email: { type: String },
@@ -22,7 +23,16 @@ const RealtySchema = mongoose.Schema({
         telephone: { type: String, match: /^(?:0|\(?\+33\)?\s?|0033\s?)[1-79](?:[\.\-\s]?\d\d){4}$/ },
         info_complementaire_contact: { type: String }
     },
-    // date: { type: Date, default: Date.now }
+    information_du_bien : {
+        type_bien: {type: String, match: /[1-6]{1}/},
+        prix_net_vendeur: { type: Number },
+        commision: { type: Number },
+        surface: { type: Number },
+        nbr_piece: { type: Number },
+        type_ventes: {type: String, match: /[1-3]{1}/},
+        info_complementaire_bien: { type: String }
+    },
+    urlImage: {type: Array},
     slug: { type: String, slug: [["contact_du_bien.nom"], ["contact_du_bien.prenom"]], unique: true }
 },{versionKey: false}
 );

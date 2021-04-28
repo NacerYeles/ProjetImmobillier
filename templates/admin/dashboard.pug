@@ -7,18 +7,18 @@ block content
         span.navbar-toggler-icon
       #main-navbar.collapse.navbar-collapse
         ul.navbar-nav.mr-auto
+          //- li.nav-item
+          //-   a.nav-link(id="nav-dashboard" class=(route == '/admin/realty/add' ? 'active' : '' ), href="/admin/realty/add")
+          //-       em.fa.fa-home &nbsp; Ajouter un Bien
           li.nav-item
-            a.nav-link(class=(route == '/admin' ? 'active' : '' ), href="/admin")
-                em.fa.fa-tachometer-alt &nbsp; Dashboard
+            a.nav-link(id="nav-dashboard" class=(route.indexOf('/admin/realty/liste-des-collaborateurs') != -1  ? 'active' : '' ), href="/admin/realty/liste-des-collaborateurs")
+                em.fa.fa-address-book &nbsp; Liste des Collaborateurs
+          //- li.nav-item
+          //-   a.nav-link(id="nav-dashboard" class=(route.indexOf('/admin/realty/addCollab') == 0  ? 'active' : '' ), href="/admin/realty/addCollab")
+          //-       em.fa.fa-address-book &nbsp; Ajouter un Collaborateur
           li.nav-item
-            a.nav-link(class=(route.indexOf('/admin/realty/add') != -1  ? 'active' : '' ), href="/admin/realty/add")
-                em.fa.fa-home &nbsp; Ajouter un Bien
-          li.nav-item
-            a.nav-link(class=(route.indexOf('/admin/contacts') != -1  ? 'active' : '' ), href="/admin/contacts")
-                em.fa.fa-address-book &nbsp; Contacts
-          li.nav-item
-            a.nav-link(class=(route.indexOf('/admin/realty/liste-des-biens') != -1  ? 'active' : '' ), href="/admin/realty/liste-des-biens")
+            a.nav-link(id="nav-dashboard" class=(route.indexOf('/admin/realty/liste-des-biens') != -1  ? 'active' : '' ), href="/admin/realty/liste-des-biens")
                 em.fa.fa-tachometer-alt &nbsp; Liste des biens
           li.nav-item
-            a.nav-link(class=(route.indexOf('/logout/deconnexion-user') != -1  ? 'active' : '' ), href="/logout/deconnexion-user")
+            a.nav-link(id="nav-dashboard" class=(route.indexOf('/logout/deconnexion-user') != -1  ? 'active' : '' ), href="/logout/deconnexion-user")
                 em.fa.fa-sign-out-alt &nbsp; Déconnexion

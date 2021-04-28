@@ -1,0 +1,53 @@
+extends layout
+
+block content
+    if UnSeulBien != undefined
+            .container#containerParBien
+                        .col-sm-6
+                            a(href="/" class="btn btn-primary" id="btn-Retour") Retour
+                            if UnSeulBien.urlImage.length != 0
+                                div(id="carouselExampleIndicators" class="carousel slide" data-ride="carousel")
+                                    ol(class="carousel-indicators")
+                                        each uneImage, i in UnSeulBien.urlImage
+                                            li(data-target="#carouselExampleIndicators" data-slide-to=i class="active")
+                                    div(class="carousel-inner")
+                                        each uneImage, i in UnSeulBien.urlImage
+                                            div(class=(uneImage === UnSeulBien.urlImage[0] ? 'carousel-item active' : 'carousel-item'))
+                                                img(class="d-block w-100" data-holder-rendered="true" src=`/../images/products/`+ uneImage alt= `slide numero ` + i)
+                                    if UnSeulBien.urlImage.length >= 2
+                                        a(class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev")
+                                            span(class="carousel-control-prev-icon" aria-hidden="true")
+                                            span(class="sr-only") Previous
+                                        a(class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next")
+                                            span(class="carousel-control-next-icon" aria-hidden="true")
+                                            span(class="sr-only") Next
+                            else
+                                img(id="PasDimage" class="d-block w-75" src=`/../images/products/Pas_d'image.png`)
+                            
+                            case UnSeulBien.information_du_bien.type_bien
+                                //- when ""
+                                //-     h3 you have no friendszzzzzzzzz
+                                when "1" 
+                                        h3 #{nomDesBiens['1']} #{UnSeulBien.information_du_bien.nbr_piece} pièces  #{UnSeulBien.information_du_bien.surface} m²
+                                when "2"
+                                        h3 #{nomDesBiens['2']} #{UnSeulBien.information_du_bien.nbr_piece} pièces #{UnSeulBien.information_du_bien.surface} m²
+                                when "3"
+                                        h3 #{nomDesBiens['3']} #{UnSeulBien.information_du_bien.nbr_piece} pièces #{UnSeulBien.information_du_bien.surface} m²
+                                when "4"
+                                        h3 #{nomDesBiens['4']} #{UnSeulBien.information_du_bien.nbr_piece} pièces #{UnSeulBien.information_du_bien.surface} m²
+                                when "5"
+                                        h3 #{nomDesBiens['5']} #{UnSeulBien.information_du_bien.nbr_piece} pièces #{UnSeulBien.information_du_bien.surface} m²
+                                when "6"
+                                        h3 #{nomDesBiens['6']} #{UnSeulBien.information_du_bien.nbr_piece} pièces #{UnSeulBien.information_du_bien.surface} m²
+                                default
+                                    h3 Le type de bien à pas encore été défini
+                            h5 #{UnSeulBien.information_du_bien.prix_net_vendeur === null ? "Le prix est pas encore défini " : UnSeulBien.information_du_bien.prix_net_vendeur + ' €' }
+                            #homeUnParTextDescription
+                                h5#homeUnParTitreDescription Description : 
+                                strong Lorem ipsum dolor sit amet consectetur adipisicing elit. Nesciunt officiis labore cumque, odit consectetur molestiae unde sint eum sit saepe eligendi enim maiores earum, aliquam error ea rem quas ut.
+                            h5 Contacter le propriétaire du bien : 
+                            ul#homeUnParUnInfoProprio 
+                                li nom : #{UnSeulBien.contact_du_bien.nom === '' ? 'le propriétaire à pas encore remplit son nom' : UnSeulBien.contact_du_bien.nom}
+                                li prenom : #{UnSeulBien.contact_du_bien.prenom === '' ? 'le propriétaire à pas encore remplit son prenom' : UnSeulBien.contact_du_bien.prenom}
+                                li adresse mail : #{UnSeulBien.contact_du_bien.email === '' ? 'le propriétaire à pas encore remplit son email' : UnSeulBien.contact_du_bien.email}
+                                li numéro de téléphone : #{UnSeulBien.contact_du_bien.telephone === '' ? 'le propriétaire à pas encore remplit son telephone' : UnSeulBien.contact_du_bien.telephone}

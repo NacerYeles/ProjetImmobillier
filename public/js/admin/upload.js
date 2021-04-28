@@ -5,7 +5,7 @@
             label        = form.querySelector('label'),
             droppedFiles = false,
             showFiles    = function(files) {
-                label.textContent = files.length > 1 ? ( input.getAttribute('data-multiple-caption') ||'').replace('{count}', files.length ) : files[ 0 ].name;
+                label.textContent = files.length > 1 ? ( input.getAttribute('data-multiple-caption') ||'').replace('%count%', files.length ) : files[ 0 ].name;
             };
         input.addEventListener('change', function(e) {
             showFiles(e.target.files);

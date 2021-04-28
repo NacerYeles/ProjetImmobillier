@@ -1,24 +1,53 @@
 extends ../dashboard
 
 block append content
-    table#customers
-        thead
-            tr
-                th vendeur 
-                th Adresse
-                th Description
-                th 
-                th 
-        tbody
-            if toutLesBiens != undefined
-                each val,key in toutLesBiens
-                    tr 
-                        td #{val.adresse_du_bien.nom_vendeur}
-                        td #{val.adresse_du_bien.adresse}
-                        td #{val.adresse_du_bien.info_complementaire_adresse}
-                        td
-                            a(href=`/admin/realty/update/${val.slug}`)
-                                em.fa.fa-pencil-alt#pencilIcon &nbsp;
-                        td
-                            a(href=`/admin/realty/delete/${val.slug}`) 
-                                em.fa.fa-trash#deleteIcon &nbsp;
+    .container
+        if toutLesUsers != undefined
+            a(href="/admin/realty/addCollab" class="btn btn-primary" id="btn-Retour")
+                em.fa.fa-address-book &nbsp; Ajouter un Utilisateur
+        if toutLesBiens != undefined
+            a(href="/admin/realty/add" class="btn btn-primary" id="btn-Retour")
+                em.fa.fa-home &nbsp; Ajouter un Bien
+        table#customers
+            thead
+                tr
+                    if toutLesBiens != undefined
+                        th Nom du vendeur
+                        th Adresse
+                        th Information complémentaire
+                        th 
+                        th
+                    else if toutLesUsers != undefined
+                        th Nom 
+                        th Prénom
+                        th Adresse mail
+                        th Option du compte
+                        th 
+                        th
+            tbody
+                if toutLesBiens != undefined
+                    each val,key in toutLesBiens
+                        tr 
+                            td #{val.adresse_du_bien.nom_vendeur}
+                            td #{val.adresse_du_bien.adresse}
+                            td #{val.adresse_du_bien.info_complementaire_adresse}
+                            td
+                                a(href=`/admin/realty/update/${val.slug}`)
+                                    em.fa.fa-pencil-alt#pencilIcon &nbsp;
+                            td
+                                a(href=`/admin/realty/delete/${val.slug}`) 
+                                    em.fa.fa-trash#deleteIcon &nbsp;
+                else if toutLesUsers != undefined
+                    each val,key in toutLesUsers
+                        tr 
+                            td #{val.nom}
+                            td #{val.prenom}
+                            td #{val.email}
+                            td #{val.roles}
+                            td
+                                a(href=`/admin/realty/update-user/${val.slug}`)
+                                    em.fa.fa-pencil-alt#pencilIcon &nbsp;
+                            td
+                                a(href=`/admin/realty/delete-user/${val.slug}`) 
+                                    em.fa.fa-trash#deleteIcon &nbsp;
+       

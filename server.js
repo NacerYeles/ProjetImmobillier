@@ -4,6 +4,10 @@ const path = require('path');
 const config = require('./app/config');
 const sassMiddleware = require('node-sass-middleware');
 const bodyParser = require('body-parser');
+let MiddlewareJWT = require('./src/middleware-JWT/middleware-JWT.js');
+const guard = require('express-jwt-permissions')();
+const Cookies = require( "cookies" );
+const jwt = require('jsonwebtoken');
 
 //--------------------------------------------------------------------
 //      Ajout du midlleware express session
@@ -43,12 +47,50 @@ app.use(sassMiddleware({
 }));
 
 //--------------------------------------------------------------------
+//     Traitement du jeton jwt
+//--------------------------------------------------------------------
+
+app.use('/admin', MiddlewareJWT, guard.check('admin'));
+
+//app.use(MiddlewareJWT);
+
+app.use( (err, req, res, next) => {
+    if (err.code === 'permission_denied') {
+      //res.status(403).send('Forbidden');
+      req.flash('error', 'Vous êtes pas autoriser à accéder aux fonctionnalités de la partie admin ');
+      res.redirect('/');
+    }
+});
+
+//--------------------------------------------------------------------
 //      envoie de variable dans toute les vue
 //--------------------------------------------------------------------
 
 app.use((req,res, next) => {
     res.locals.session = req.session;
     res.locals.route = req._parsedUrl.pathname;
+    res.locals.nomDesBiens = {
+        1: "Maison",
+        2: "Appartement",
+        3: "Terrain",
+        4: "Parking",
+        5: "Local / Bureau",
+        6: "Autres"
+    }
+
+    // console.log('req.session : ', req.session);
+    res.locals.cookieSession = {};
+    let token = new Cookies(req,res).get('access_token');
+    if(typeof token != 'undefined') {
+        jwt.verify(token, config.appKey, (err, user) => {
+            // console.log('LLLLLLLLLLLLEEEEEEEEEEEEE UUUUUUUUUUUSSSSSSSSEEEERRRRRR : ', user);
+            if(!err) {
+                res.locals.cookieSession = user;
+            }
+        });
+    }
+
+
     // if(req.session.route !== undefined){
     //     console.log("la route en question : ", req.session.toutLesBiens);
     // }

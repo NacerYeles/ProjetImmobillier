@@ -1,39 +1,152 @@
 extends ../dashboard
 
 block append content
-    form(action=`/admin/realty/${UnSeulBien != undefined ? 'update/' + UnSeulBien.slug  : 'add' }`, method='POST', enctype="multipart/form-data")
-        .grandBlock
-            div.block1
-                h4.LestitresDuFormulaireAdmin Adresse du Bien
-                div.name_vendeur
-                    input(class="form-control", type="text", placeholder=`${UnSeulBien === undefined ? 'nom du vendeur'  : '' }` value=`${UnSeulBien != undefined ? UnSeulBien.adresse_du_bien.nom_vendeur  : '' }`, name="nom_vendeur")
-                div.adresse
-                    input(class="form-control", type="text", placeholder=`${UnSeulBien === undefined ? 'adresse du bien'  : '' }` value=`${UnSeulBien != undefined ? UnSeulBien.adresse_du_bien.adresse  : '' }`, name="adresse")
-                div.code_postale
-                    input(class="form-control", type="text", placeholder=`${UnSeulBien === undefined ? 'code postal'  : '' }` value=`${UnSeulBien != undefined ? UnSeulBien.adresse_du_bien.code_postal  : '' }`, name="code_postal")
-                div.ville
-                    input(class="form-control", type="text", placeholder=`${UnSeulBien === undefined ? 'ville'  : '' }` value=`${UnSeulBien != undefined ? UnSeulBien.adresse_du_bien.ville  : '' }`, name="ville")
-                div.info_complementaire_adresse
-                    input(class="form-control", type="text", placeholder=`${UnSeulBien === undefined ? 'information complementaire'  : '' }` value=`${UnSeulBien != undefined ? UnSeulBien.adresse_du_bien.info_complementaire_adresse  : '' }`, name="info_complementaire_adresse")
-                
-                .lcUpload__block
-                    .lcUpload__input
-                        input.lcUpload__file(type="file" name="photos" id="file" data-multiple-caption="{count} fichiers sélectionnés" multiple)
-                        label(for="file")
-                            strong Choisissez le fichier
-                            span.lcUpload__dragndrop  ou glissez le ici
-            div.block2 
-                h4.LestitresDuFormulaireAdmin Contact du Bien
-                div.nom
-                    input(class="form-control", type="text", placeholder=`${UnSeulBien === undefined ? 'nom'  : '' }` value=`${UnSeulBien != undefined ? UnSeulBien.contact_du_bien.nom  : '' }`, name="nom")
-                div.prenom
-                    input(class="form-control", type="text", placeholder=`${UnSeulBien === undefined ? 'prenom'  : '' }` value=`${UnSeulBien != undefined ? UnSeulBien.contact_du_bien.prenom  : '' }`, name="prenom")
-                div.email
-                    input(class="form-control", type="email", placeholder=`${UnSeulBien === undefined ? 'adresse mail'  : '' }` value=`${UnSeulBien != undefined ? UnSeulBien.contact_du_bien.email  : '' }`, name="email")
-                div.mobile
-                    input(class="form-control", type="phone", placeholder=`${UnSeulBien === undefined ? 'mobile'  : '' }` value=`${UnSeulBien != undefined ? UnSeulBien.contact_du_bien.mobile  : '' }`, name="mobile")
-                div.telephone
-                    input(class="form-control", type="phone", placeholder=`${UnSeulBien === undefined ? 'téléphone'  : '' }` value=`${UnSeulBien != undefined ? UnSeulBien.contact_du_bien.telephone  : '' }`, name="telephone")
-                div.info_complementaire_contact
-                    input(class="form-control", type="text", placeholder=`${UnSeulBien === undefined ? 'information complémentaire'  : '' }` value=`${UnSeulBien != undefined ? UnSeulBien.contact_du_bien.info_complementaire_contact  : '' }`, name="info_complementaire_contact")
+    form(class="d-block w-50" action=`/admin/realty/${UnSeulBien != undefined ? 'update/' + UnSeulBien.slug  : 'add' }`, method='POST', enctype="multipart/form-data")
+        .row 
+            .col
+                div.block1
+                        h5.LestitresDuFormulaireAdmin Adresse du Bien
+                        div.name_vendeur
+                            label Nom :
+                            input(class="form-control ", type="text", placeholder='nom du vendeur' value=`${UnSeulBien != undefined ? UnSeulBien.adresse_du_bien.nom_vendeur  : '' }`, name="nom_vendeur")
+                        div.adresse
+                            label Adresse :
+                            input(class="form-control", type="text", placeholder='adresse du bien' value=`${UnSeulBien != undefined ? UnSeulBien.adresse_du_bien.adresse  : '' }`, name="adresse")
+                        div.code_postale
+                            label Code postale :
+                            input(class="form-control", type="text", placeholder='code postal' value=`${UnSeulBien != undefined ? UnSeulBien.adresse_du_bien.code_postal  : '' }`, name="code_postal")
+                        div.ville
+                            label Ville :
+                            input(class="form-control", type="text", placeholder='ville' value=`${UnSeulBien != undefined ? UnSeulBien.adresse_du_bien.ville  : '' }`, name="ville")
+                        div.info_complementaire_adresse
+                            label Informations complémentaires : 
+                            input(class="form-control" type="text" placeholder='information complementaire' value=`${UnSeulBien != undefined ? UnSeulBien.adresse_du_bien.info_complementaire_adresse  : '' }` name="info_complementaire_adresse")
+            .col
+                div.block2 
+                        h5.LestitresDuFormulaireAdmin Contact du Bien
+                        div.civilite
+                            label Civilité :
+                            select(class="form-control" placeholder="Civilité" name="civilite")
+                                if UnSeulBien !== undefined
+                                    if UnSeulBien.contact_du_bien.civilite === ""
+                                        option(value="") Choisir votre civilité
+                                    if UnSeulBien.contact_du_bien.civilite === "1"
+                                        option(value="1" selected) Madame
+                                    else
+                                        option(value="1") Madame
+                                    if UnSeulBien.contact_du_bien.civilite === "2"
+                                        option(value="2" selected) Monsieur
+                                    else 
+                                        option(value="2") Monsieur
+                                else 
+                                    option(value="") Choisir votre civilité
+                                    option(value="1") Madame
+                                    option(value="2") Monsieur
+                        div.nom
+                            label Nom :
+                            input(class="form-control", type="text", placeholder='nom', value=`${UnSeulBien != undefined ? UnSeulBien.contact_du_bien.nom  : '' }`, name="nom")
+                        div.prenom
+                            label Prénom :
+                            input(class="form-control", type="text", placeholder='prenom' value=`${UnSeulBien != undefined ? UnSeulBien.contact_du_bien.prenom  : '' }`, name="prenom")
+                        div.email
+                            label Adresse Mail :
+                            input(class="form-control", type="email", placeholder='adresse mail' value=`${UnSeulBien != undefined ? UnSeulBien.contact_du_bien.email  : '' }`, name="email")
+                        div.mobile
+                            label Numéro de mobile :
+                            input(class="form-control", type="phone", placeholder='mobile' value=`${UnSeulBien != undefined ? UnSeulBien.contact_du_bien.mobile  : '' }`, name="mobile")
+                        div.telephone
+                            label Numéro de téléphone : 
+                            input(class="form-control", type="phone", placeholder='téléphone' value=`${UnSeulBien != undefined ? UnSeulBien.contact_du_bien.telephone  : '' }`, name="telephone")
+                        div.info_complementaire_contact
+                            label Informations complémentaires :
+                            input(class="form-control", type="text", placeholder='information complémentaire' value=`${UnSeulBien != undefined ? UnSeulBien.contact_du_bien.info_complementaire_contact  : '' }`, name="info_complementaire_contact")
+        .row
+            div.block3
+                    h5.LestitresDuFormulaireAdmin Information du Bien
+                    div.type_bien
+                        label Type de bien : 
+                        select(class="form-control" name="type_bien")
+                            if UnSeulBien !== undefined
+                                if UnSeulBien.information_du_bien.type_ventes === ""
+                                    option(value="" selected) Type de Bien
+                                if UnSeulBien.information_du_bien.type_bien === "1"
+                                    option(value="1" selected) Maison
+                                else 
+                                    option(value="1") Maison
+                                if UnSeulBien.information_du_bien.type_bien === "2"
+                                    option(value="2" selected) Appartement
+                                else
+                                    option(value="2") Appartement
+                                if UnSeulBien.information_du_bien.type_bien === "3"
+                                    option(value="3" selected) Terrain
+                                else 
+                                    option(value="3") Terrain
+                                if UnSeulBien.information_du_bien.type_bien === "4"
+                                    option(value="4" selected) Parking
+                                else
+                                    option(value="4") Parking
+                                if UnSeulBien.information_du_bien.type_bien === "5"
+                                    option(value="5" selected) Local / Bureau
+                                else 
+                                    option(value="5") Local / Bureau
+                                if UnSeulBien.information_du_bien.type_bien === "6"
+                                    option(value="6" selected) Autres
+                                else
+                                    option(value="6") Autres
+                            else
+                                option(value="") Type de Bien
+                                option(value="1") Maison
+                                option(value="2") Appartement
+                                option(value="3") Terrain
+                                option(value="4") Parking
+                                option(value="5") Local / Bureau
+                                option(value="6") Autres
+                    div.prix_net_vendeur
+                        label Prix net vendeur :
+                        input(class="form-control", type="number", placeholder='Prix net Vendeur' value=`${UnSeulBien != undefined ? UnSeulBien.information_du_bien.prix_net_vendeur  : '' }`, name="prix_net_vendeur")
+                    div.commision
+                        label Commision :
+                        input(class="form-control", type="number", placeholder='Commision' value=`${UnSeulBien != undefined ? UnSeulBien.information_du_bien.commision  : '' }`, name="commision")
+                    div.surface
+                        label Surface :
+                        input(class="form-control", type="number", placeholder='Surface en m²' value=`${UnSeulBien != undefined ? UnSeulBien.information_du_bien.surface  : '' }`, name="surface")
+                    div.nbr_piece
+                        label Pièces :
+                        input(class="form-control", type="number", placeholder='Nombre de pièces' value=`${UnSeulBien != undefined ? UnSeulBien.information_du_bien.nbr_piece  : '' }`, name="nbr_piece")
+                    div.type_ventes
+                        label Type de ventes :
+                        select(class="form-control" placeholder="Civilité" name="type_ventes")
+                            if UnSeulBien !== undefined
+                                if UnSeulBien.information_du_bien.type_ventes === ""
+                                    option(value="" selected) Type de Ventes
+                                if UnSeulBien.information_du_bien.type_ventes === "1"
+                                    option(value="1" selected) Ancien
+                                else 
+                                    option(value="1") Ancien
+                                if UnSeulBien.information_du_bien.type_ventes === "2"
+                                    option(value="2" selected) Neuf
+                                else 
+                                    option(value="2") Neuf
+                                if UnSeulBien.information_du_bien.type_ventes === "3"
+                                    option(value="3" selected) Viager
+                                else 
+                                    option(value="3") Viager
+                            else
+                                option(value="") Type de Ventes
+                                option(value="1") Ancien
+                                option(value="2") Neuf
+                                option(value="3") Viager
+                    div.info_complementaire_bien
+                        label Informations complémentaires :
+                        input(class="form-control", type="text", placeholder='information complémentaire' value=`${UnSeulBien != undefined ? UnSeulBien.information_du_bien.info_complementaire_bien  : '' }`, name="info_complementaire_bien")
+        .lcUpload__block
+                .lcUpload__input
+                    input.lcUpload__file(type="file" name="photos" id="file" data-multiple-caption="%count% fichiers sélectionnés" multiple)
+                    label(for="file")
+                        strong Choisissez le fichier
+                        span.lcUpload__dragndrop  ou glissez le ici
+
         button(id="btn-formulaireAdmin", type="submit") #{UnSeulBien != undefined ? "Modifier" : 'Enregistrer' }
+
+block scripts 
+    script(src="/js/admin/upload.js")

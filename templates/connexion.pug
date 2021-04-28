@@ -2,7 +2,7 @@ extends layout
 
 block content
     #main
-     form(action='/connexion_with_mail_and_password', method='POST')
+     form(action='/Connexion', method='POST', class="d-block w-50")
        div.label
         h2 Connexion
        div.username
@@ -12,4 +12,12 @@ block content
        button(id="btn-formulaireAndConnexion", class="btn btn-primary", type="submit") Connexion
        p
         | Mot de passe oublier ?
-        a(id="mdp-oublier-connexion", href="#") Clique ici !!! 
+        a(id="mdp-oublier-connexion", href="#") Clique ici !!!
+     button(id="facebook" class="btn btn-primary") facebook
+
+
+block scripts 
+    script(src="https://www.gstatic.com/firebasejs/8.4.2/firebase.js")
+    script(src="https://www.gstatic.com/firebasejs/8.4.2/firebase-app.js")
+    script(src="https://www.gstatic.com/firebasejs/8.4.2/firebase-auth.js")
+    script(src="/js/authentificateFirebase/authentificateFirebaseWithGoogleAndFacebook.js")

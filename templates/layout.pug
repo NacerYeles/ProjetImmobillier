@@ -13,24 +13,6 @@ html(lang="fr")
     //- link(href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js")
     //- link(href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js")
   body
-    //- nav(class="navbar navbar-light bg-light")
-    //-     ul(class="row")
-    //-         li
-    //-             a(class="navbar-brand", href="/")
-    //-                 img.img-responsive(src="/images/house.png", alt="mon image du nav")
-    //-         li 
-    //-             a(href="/") Accueil
-    //-         if session.user == null
-    //-             li
-    //-                 a(href="/Inscription") Inscription 
-    //-             li
-    //-                 a(href="/Connexion") se connecter
-    //-         else
-    //-             li
-    //-                 a(href="/admin") Administration
-    //-             li
-    //-                 a(href="/logout/deconnexion-user") deconnexion
-
     nav.navbar.navbar-expand-md.navbar-dark.bg-dark
       a.navbar-brand(href="#")
         //- img.img-responsive(src="/images/house.png", alt="mon image du nav")
@@ -40,21 +22,27 @@ html(lang="fr")
         ul.navbar-nav.mr-auto
           li.nav-item
             a.nav-link(class=(route == '/' ? 'active' : '' ), href="/") Accueil
-          if session.user == null
+          //- if session.user == null
+          if !cookieSession.nom || !cookieSession.prenom
             li.nav-item
                 a.nav-link(class=(route.indexOf('/Inscription') != -1  ? 'active' : '' ), href="/Inscription") Inscription
             li.nav-item
                 a.nav-link(class=(route.indexOf('/Connexion') != -1  ? 'active' : '' ), href="/Connexion") se connecter
           else
             li.nav-item
-                a.nav-link(class=(route.indexOf('/admin') != -1  ? 'active' : '' ), href="/admin") Administration
+                    a.nav-link(class=(route.indexOf('/admin') != -1  ? 'active' : '' ), href="/admin") Administration
+          //- if cookieSession.nom || cookieSession.prenom
+          //-   each LaPermission, i in cookieSession.permissions
+          //-     if LaPermission === 'admin'
+          //-       li.nav-item
+          //-           a.nav-link(class=(route.indexOf('/admin') != -1  ? 'active' : '' ), href="/admin") Administration
             //- li.nav-item
             //-     a.nav-link(href="/logout/deconnexion-user") deconnexion
-          if session.user != undefined
+          if cookieSession.nom || cookieSession.prenom
             li.nav-item.dropdown
               a#dropdown01.nav-link.dropdown-toggle(href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false")
                 img(src="https://avatars.githubusercontent.com/u/49784762?s=400&u=613c3e4a4f15dbfe4f151cce84b5f7ae1e41bf4a&v=4", alt="mdo", width="32", height="32", class="rounded-circle me-2")
-                strong #{session.user.nom} #{session.user.prenom}
+                strong #{cookieSession.nom} #{cookieSession.prenom}
               .dropdown-menu
                 a.dropdown-item(href="#") Configuration
                 a.dropdown-item(href="#") Profil
@@ -75,5 +63,5 @@ html(lang="fr")
     script(src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous")
     script(src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous")
     script(src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous")
-
+    script(src="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.js")
       

@@ -1,6 +1,8 @@
 let Home = require('../src/controllers/Home.js');
 let Inscription = require('../src/controllers/Inscription.js');
 let Connexion = require('../src/controllers/Connexion.js');
+let FacebookAuthentificate = require('../src/controllers/FacebookAuthentificate.js');
+let GoogleAuthentificate = require('../src/controllers/GoogleAuthentificate.js');
 let Realty = require('../src/controllers/Realty.js');
 let VerifierToutLesChamps = require('../src/form-valid/Inscription-controle-champs.js');
 let RecupDesBiens = require('../src/recup_des_biens/recup_des_biens.js');
@@ -11,6 +13,7 @@ let expressFillUpload =  require('express-fileupload')({createParentPath: true})
 let LcParserService = require('../src/services/LcParserService.js');
 let errorsHTTP = require('../app/errorsHTTP.js')();
 let TokenCRF = require('../src/middleware-CRF/crf-token.js');
+// let authentificateFacebook = require('../public/js/authentificateFirebase/authentificateFirebaseWithGoogleAndFacebook.js');
 // let MiddlewareJWT = require('../src/middleware-JWT/middleware-JWT.js');
 // const middlewareJWT = require('../src/middleware-JWT/middleware-JWT.js');
 
@@ -18,6 +21,14 @@ let TokenCRF = require('../src/middleware-CRF/crf-token.js');
 module.exports = (app) => {
 
     app.route("/").get(RecupDesBiens, (new Home()).print).all(errorsHTTP.error405);
+
+    app.route('/auth-facebook')
+        .post((new FacebookAuthentificate()).facebookAuthentificate)
+        .all(errorsHTTP.error405);
+
+    app.route('/auth-google')
+        .post((new GoogleAuthentificate()).googleAuthentificate)
+        .all(errorsHTTP.error405);
 
     app.route("/UnBien/:slug")
         .get(RecupIDupdate, (new Home()).printBienUnParUn)

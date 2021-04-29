@@ -1,6 +1,7 @@
 extends ../layout
 
 block content
+  if UnSeulUser != undefined || cookieSession.nom 
     nav.navbar.navbar-expand-md.navbar-warning.bg-warning
       a.navbar-brand(href="#")
       button.navbar-toggler(type="button" data-toggle="collapse" data-target="#main-navbar")

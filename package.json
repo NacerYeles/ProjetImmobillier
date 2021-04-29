@@ -4,7 +4,7 @@
   "description": "projet immobilier Lapasserelle node,express,moka",
   "main": "index.js",
   "scripts": {
-    "dev": "browser-refresh server.js",
+    "dev": "nodemon server.js",
     "start": "node server.js",
     "test": "mocha --recursive --exit"
   },

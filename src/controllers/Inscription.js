@@ -10,6 +10,10 @@ module.exports = class Inscription {
         response.render('inscription');  
     }
 
+    printPasswordConfirm(request, response) {
+        response.render('mails/regenerate_mail_confirme');  
+    }
+
     printPasswordLost(request, response) {
         response.render('regenerate_password');  
     }
@@ -20,6 +24,35 @@ module.exports = class Inscription {
 
     printRegisterUser(request, response){
         response.render('inscription');
+    }
+
+    async compareAndConfirmeResetPassword(request, response){
+        let tokendansURL = request.params.tokenReset;
+        let newPassword = request.body.tokenResetPassword;
+        let newPasswordVerif = request.body.tokenResetPasswordConfirme;
+
+        await (new User).get_un_seul_user({tokenResetPassword : tokendansURL}).then(async (result) => {
+            if(newPassword === newPasswordVerif && newPassword !== '' && newPasswordVerif !== ''){
+                if( tokendansURL ===  result.tokenResetPassword[0]){
+                    let updateMdp = {
+                        mdp: bcrypt.hashSync(
+                            newPassword,
+                            bcrypt.genSaltSync(10)
+                        )
+                    }
+                    await (new User).update_un_user({tokenResetPassword : tokendansURL}, updateMdp);
+                    request.flash('notify', 'Votre mot de passe a été modifier avec success');
+                    response.redirect(`/`);
+                }else{
+                    request.flash('error', 'erreur de token');
+                    response.redirect(`/reset_password/${tokendansURL}`);
+                }
+            }else{
+                request.flash('error', 'les deux champs doivent être rempli et identique pour valider votre mot de passe');
+                response.redirect(`/reset_password/${tokendansURL}`);
+            }
+        });
+
     }
 
     process_reset_password(request, response, app) {

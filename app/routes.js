@@ -35,6 +35,14 @@ module.exports = (app) => {
         .post(TokenCRF.generateForPassword, (req, res) => (new Inscription()).process_reset_password(req,res,app))
         .all(errorsHTTP.error405);
 
+    app.route('/reset_password/:tokenReset')
+        .get((req,res,next) => {
+            res.locals.tokenReset = req.params.tokenReset;
+            next();
+        },(new Inscription()).printPasswordConfirm)
+        .post((new Inscription()).compareAndConfirmeResetPassword)
+        .all(errorsHTTP.error405);
+
 /************************************************************************************************************/
 /************************ LES ROUTES AUTHENTIFICATION FACEBOOK AND GOOGLE ***********************************/
 /************************************************************************************************************/

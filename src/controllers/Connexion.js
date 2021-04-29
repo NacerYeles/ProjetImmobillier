@@ -41,7 +41,7 @@ module.exports = class Connexion {
                                     prenom: user.prenom,
                                     telephone: user.telephone,
                                     slug: user.slug,
-                                    // photoURL: 'https://avatars.githubusercontent.com/u/49784762?s=400&u=613c3e4a4f15dbfe4f151cce84b5f7ae1e41bf4a&v=4',
+                                    photoURL: 'https://avatars.githubusercontent.com/u/49784762?s=400&u=613c3e4a4f15dbfe4f151cce84b5f7ae1e41bf4a&v=4',
                                     permissions: user.roles
                                 },
                                 config.appKey,

@@ -81,9 +81,9 @@ app.use((req,res, next) => {
     // console.log('req.session : ', req.session);
     res.locals.cookieSession = {};
     let token = new Cookies(req,res).get('access_token');
+    // console.log('LLLEEE UUUUUSSSSEEEERRRR : ', req.session);
     if(typeof token != 'undefined') {
         jwt.verify(token, config.appKey, (err, user) => {
-            console.log('LLLEEE UUUUUSSSSEEEERRRR : ', user);
             if(!err) {
                 res.locals.cookieSession = user;
             }

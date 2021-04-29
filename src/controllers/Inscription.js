@@ -2,10 +2,16 @@ let User = require('../repository/User.js');
 let bcrypt = require('bcryptjs');
 const Cookies = require( "cookies" );
 let errorsHTTP = require('../../app/errorsHTTP.js')();
+let MailerService = require('../services/Mailer.js');
+let TokenCRF = require('../middleware-CRF/crf-token.js');
 
 module.exports = class Inscription {
     print(request, response) {
         response.render('inscription');  
+    }
+
+    printPasswordLost(request, response) {
+        response.render('regenerate_password');  
     }
 
     printListeUser(request, response){
@@ -15,6 +21,37 @@ module.exports = class Inscription {
     printRegisterUser(request, response){
         response.render('inscription');
     }
+
+    process_reset_password(request, response, app) {
+        let mailer = new MailerService();
+        let email = request.body.email;
+        console.log('TESTE : ' , request.session);
+        let addTokenPourMail = {
+            tokenResetPassword: request.session.csrfPassword
+        }
+        // On génére le mail
+        app.render('mails/regenerate_mail_password', {
+            csrfPassword: request.session.csrfPassword
+        }, async (err, html) => {
+            // On vérifie si l'adresse email existe dans notre BDD
+            await (new User).get_user_by_email(email).then(async (result) => {
+                // si l'email existe
+                if(result) {
+                    // on envoi le mail
+                    // console.log(html);
+                    await (new User).update_un_user({email : email}, addTokenPourMail)
+                    mailer.send(email, 'Mot de passe oublié', html);
+                }else{
+                    request.flash('error', 'votre adresse mail existe pas, veuillez vous inscrire');
+                    response.redirect('/mot_de_passe_oublie');
+                }
+                // Dans tout les cas on met une flashbag et une redirection
+                request.flash('notify', 'Un mail vous a été envoyé.');
+                response.redirect('/');
+            });
+        });
+    }
+
 
     async insert_form_user(request, response){
         console.log('Got body:', request.body);

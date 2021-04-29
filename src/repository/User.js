@@ -14,7 +14,8 @@ const UserSchema = mongoose.Schema({
     telephone: { type: String , match: /^(?:0|\(?\+33\)?\s?|0033\s?)[1-79](?:[\.\-\s]?\d\d){4}$/ },
     date: { type: Date, default: Date.now },
     slug: { type: String, slug: ["nom", "prenom"], unique: true },
-    roles: { type: Array }
+    roles: { type: Array },
+    tokenResetPassword: { type: Array }
 },{versionKey: false}
 );
 

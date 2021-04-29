@@ -1,20 +1,21 @@
 extends layout
 
 block content
-    #main
-     form(action='/Connexion', method='POST', class="d-block w-50")
-       div.label
-        h2 Connexion
-       div.username
-        input(class="form-control", type="email", placeholder="email", name="email")
-       div.password
-        input(class="form-control", type="password", placeholder="Mot de passe", name="mdp")
-       button(id="btn-formulaireAndConnexion", class="btn btn-primary", type="submit") Connexion
-       p
-        | Mot de passe oublier ?
-        a(id="mdp-oublier-connexion", href="#") Clique ici !!!
-     button(id="facebook" class="btn btn-primary") facebook
-     button(id="google" class="btn btn-light") google
+  .container
+      form(action='/Connexion', method='POST', class="d-block w-50")
+        div.label
+          h2 Connexion
+        div.username
+          input(class="form-control", type="email", placeholder="email", name="email")
+        div.password
+          input(class="form-control", type="password", placeholder="Mot de passe", name="mdp")
+        button(id="btn-formulaireAndConnexion", class="btn btn-primary", type="submit") Connexion
+        p
+          | Mot de passe oublié ?
+          a(id="mdp-oublier-connexion", href="/mot_de_passe_oublie") Clique ici !!!
+      .lesButtonDeConnexion
+        button(id="facebook" class="btn btn-primary") facebook
+        button(id="google" class="btn btn-light") google
 
 
 block scripts 

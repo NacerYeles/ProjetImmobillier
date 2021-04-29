@@ -9,6 +9,13 @@ exports.generate = (req, res, next) => {
     next()
 };
 
+exports.generateForPassword = (req, res, next) => {
+    let tokenCRF = SHA256(`${new Date().toDateString()}${Math.random()}`).toString()
+    res.locals.csrfPassword = tokenCRF
+    req.session.csrfPassword = tokenCRF
+    next()
+};
+
 exports.verify = (req, res, next) => {
     if(req.body.csrf !== req.session.csrf){
         errorsHTTP.error409(req, res);

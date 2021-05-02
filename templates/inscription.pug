@@ -2,7 +2,7 @@ extends admin/dashboard
 
 block append content
     #main
-     form(action=`${route == '/admin/realty/addCollab' || route == '/Inscription' ? '/insertion_dans_base' : '/admin/realty/update-user/' + UnSeulUser.slug }`, method='POST', class="d-block w-50" )
+     form(action=`${route == '/admin/realty/addCollab' || route == '/inscription' || UnSeulUser === undefined ? '/insertion_dans_base' : '/admin/realty/update-user/' + UnSeulUser.slug }`, method='POST', class="d-block w-50" )
        input(type="hidden" name="csrf" value=csrf)
        div.label
         if route == '/admin/realty/addCollab'
@@ -12,10 +12,10 @@ block append content
        div.mail
         label Adresse mail :
         input(class="form-control", type="email", placeholder="Email", name="email", value=`${UnSeulUser != undefined ? UnSeulUser.email  : '' }`)
-       if route == '/admin/realty/addCollab' || route == '/Inscription'
-        div.password
-          label Mot de passe :
-          input(class="form-control", type="password", placeholder="Mot de passe", name="mdp")
+        if route == '/admin/realty/addCollab' || route == '/inscription' || UnSeulUser === undefined 
+            div.password
+                label Mot de passe :
+                input(class="form-control", type="password", placeholder="Mot de passe", name="mdp")
        div.civilite
         label Civilité :
         select(class="form-control" placeholder="Civilité" name="civilite")
@@ -62,7 +62,7 @@ block append content
                   option(value="pas-admin")  Mettre le compte en Admin
                   option(value="admin") Oui
                   option(value="pas-admin") Non
-       button(id="btn-formulaireAndConnexion", class="btn btn-primary", type="submit") #{cookieSession.nom || cookieSession.prenom ? "Modifier" : 'Inscription' }
+       button(id="btn-formulaireAndConnexion", class="btn btn-primary", type="submit") #{cookieSession.nom || cookieSession.prenom ? "Modifier" : 'inscription' }
        p
         | déjà membre ?
         a(id="deja-membre-formulaire" href="/Connexion") Connect toi 

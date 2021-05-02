@@ -12,9 +12,6 @@ module.exports = class Connexion {
     connexion_with_mail_and_password(req, res){
         let entityMail = req.body.email;
         let entityPassword = req.body.mdp;
-        console.log(req.body);
-        //let allData = (new User).recup_all_data();
-        //console.log("entityPassword", req.body);
         if(entityMail === '' || entityPassword === ''){
              // Email incorrect
              req.flash('error', 'votre adresse mail ou votre mot de passe à pas été saisi, veuillez recommencer !!!');

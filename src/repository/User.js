@@ -15,7 +15,8 @@ const UserSchema = mongoose.Schema({
     date: { type: Date, default: Date.now },
     slug: { type: String, slug: ["nom", "prenom"], unique: true },
     roles: { type: Array },
-    tokenResetPassword: { type: Array }
+    tokenResetPassword: { type: String },
+    dateToken: {type: Number}
 },{versionKey: false}
 );
 

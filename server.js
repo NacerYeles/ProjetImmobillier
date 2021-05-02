@@ -68,6 +68,8 @@ app.use( (err, req, res, next) => {
 
 app.use((req,res, next) => {
     res.locals.session = req.session;
+    res.locals.url = `${req.protocol}://${req.headers.host}`;
+    console.log(res.locals);
     res.locals.route = req._parsedUrl.pathname;
     res.locals.nomDesBiens = {
         1: "Maison",

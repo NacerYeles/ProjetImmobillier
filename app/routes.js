@@ -10,9 +10,11 @@ let RecupDesUsers = require('../src/recup_des_users/recup_des_users.js');
 let RecupIDupdate = require('../src/middleware-update/middlewareUpdate.js');
 let RecupIDupdateUser = require('../src/middleware-update/middlewareUpdateUser.js');
 let expressFillUpload =  require('express-fileupload')({createParentPath: true});
-let LcParserService = require('../src/services/LcParserService.js');
 let errorsHTTP = require('../app/errorsHTTP.js')();
 let TokenCRF = require('../src/middleware-CRF/crf-token.js');
+let verifNewPassword = require('../src/verif-resetPassword/verif-new-password.js');
+let timerResetToken = require('../src/verif-resetPassword/timer_reset_token.js');
+// let LcParserService = require('../src/services/LcParserService.js');
 // let authentificateFacebook = require('../public/js/authentificateFirebase/authentificateFirebaseWithGoogleAndFacebook.js');
 // let MiddlewareJWT = require('../src/middleware-JWT/middleware-JWT.js');
 // const middlewareJWT = require('../src/middleware-JWT/middleware-JWT.js');
@@ -39,8 +41,8 @@ module.exports = (app) => {
         .get((req,res,next) => {
             res.locals.tokenReset = req.params.tokenReset;
             next();
-        },(new Inscription()).printPasswordConfirm)
-        .post((new Inscription()).compareAndConfirmeResetPassword)
+        }, timerResetToken, (new Inscription()).printPasswordConfirm)
+        .post(verifNewPassword,(new Inscription()).compareAndConfirmeResetPassword)
         .all(errorsHTTP.error405);
 
 /************************************************************************************************************/
@@ -59,7 +61,7 @@ module.exports = (app) => {
 /************************ LES ROUTES INSCRIPTION *************************************************/
 /*************************************************************************************************/
 
-    app.route("/Inscription").get(TokenCRF.generate, (new Inscription()).print).all(errorsHTTP.error405);
+    app.route("/inscription").get(TokenCRF.generate, (new Inscription()).print).all(errorsHTTP.error405);
 
     app.route("/insertion_dans_base")
     .post(TokenCRF.verify, VerifierToutLesChamps, (new Inscription()).insert_form)
@@ -153,7 +155,7 @@ module.exports = (app) => {
     .get((new Inscription()).deconnexion_user)
     .all(errorsHTTP.error405);
 
-/************************ PARCOUR DE TOUTE LES ROUTES ET GENERATION DUNE ERREUR SI ERREUR405 PAS TROUVER ***********************************/
+/************************ PARCOUR DE TOUTE LES ROUTES ET GENERATION DUNE ERREUR 404 SI ERREUR405 PAS TROUVER ***********************************/
     // Erreur 404
     app.route("*").all(errorsHTTP.error404);
 };

@@ -7,7 +7,7 @@ module.exports = class GoogleAuthentificate {
         response.render('home');
     }
     googleAuthentificate(request, response, next) {
-        console.log("request.body : ", request.body);
+        console.log("request.body AAAAAAAAAAAAAAAAAAAAAAAAA: ", request.body);
         let accessToken = jwt.sign(
             {
                 email: request.body.email,

@@ -32,8 +32,7 @@ module.exports = class Inscription {
         let newPasswordVerif = request.body.tokenResetPasswordConfirme;
 
         await (new User).get_un_seul_user({tokenResetPassword : tokendansURL}).then(async (result) => {
-            if(newPassword === newPasswordVerif && newPassword !== '' && newPasswordVerif !== ''){
-                if( tokendansURL ===  result.tokenResetPassword[0]){
+                if( tokendansURL ===  result.tokenResetPassword){
                     let updateMdp = {
                         mdp: bcrypt.hashSync(
                             newPassword,
@@ -47,42 +46,49 @@ module.exports = class Inscription {
                     request.flash('error', 'erreur de token');
                     response.redirect(`/reset_password/${tokendansURL}`);
                 }
-            }else{
-                request.flash('error', 'les deux champs doivent être rempli et identique pour valider votre mot de passe');
-                response.redirect(`/reset_password/${tokendansURL}`);
-            }
         });
 
     }
 
-    process_reset_password(request, response, app) {
+    async process_reset_password(request, response, app) {
         let mailer = new MailerService();
         let email = request.body.email;
         console.log('TESTE : ' , request.session);
         let addTokenPourMail = {
-            tokenResetPassword: request.session.csrfPassword
+            tokenResetPassword: request.session.csrfPassword,
+            dateToken: Date.now()
         }
-        // On génére le mail
-        app.render('mails/regenerate_mail_password', {
-            csrfPassword: request.session.csrfPassword
-        }, async (err, html) => {
-            // On vérifie si l'adresse email existe dans notre BDD
-            await (new User).get_user_by_email(email).then(async (result) => {
-                // si l'email existe
-                if(result) {
-                    // on envoi le mail
-                    // console.log(html);
-                    await (new User).update_un_user({email : email}, addTokenPourMail)
-                    mailer.send(email, 'Mot de passe oublié', html);
-                }else{
-                    request.flash('error', 'votre adresse mail existe pas, veuillez vous inscrire');
-                    response.redirect('/mot_de_passe_oublie');
-                }
-                // Dans tout les cas on met une flashbag et une redirection
-                request.flash('notify', 'Un mail vous a été envoyé.');
-                response.redirect('/');
+
+        // On vérifie si l'adresse email existe dans notre BDD
+        await (new User).get_user_by_email(email).then(async (result) => {
+            let tplMail;
+            let data = {
+                url: response.locals.url
+            };
+            let subject = '';
+            // si l'email existe
+            if(result) {
+                // on envoi le mail
+                // console.log(html);
+                await (new User).update_un_user({email : email}, addTokenPourMail)
+                tplMail = 'regenerate_mail_password';
+                subject = 'Mot de passe oublié';
+                data.csrfPassword = request.session.csrfPassword;
+            } else{
+                tplMail = 'regenerate_mail_inscription';
+                subject = 'Mot de passe oublié';
+            }
+
+            // On génére le mail
+            app.render('mails/' + tplMail, data, async (err, html) => {
+                mailer.send(email, subject, html);
             });
+
+            // Dans tout les cas on met une flashbag et une redirection
+            request.flash('notify', 'Un mail vous a été envoyé.');
+            response.redirect('/');
         });
+
     }
 
 
@@ -102,7 +108,7 @@ module.exports = class Inscription {
         }
         
         await (new User).add_user(entity);
-        response.redirect('//admin/realty/liste-des-collaborateurs');
+        response.redirect('/admin/realty/liste-des-collaborateurs');
     }
 
     async insert_form(request, response){
